@@ -1,0 +1,61 @@
+<div class="table-search" fxLayout="row" >
+  <form class="table-search-form" #customerSearch="ngForm" (ngSubmit)="onSearch()" fxFill fxLayoutGap="10px">
+    <mat-form-field fxFlex="20%">
+      <mat-label for="search-param">Search By</mat-label>
+      <mat-select [(ngModel)]="searchParam" id="customer-search-param" id="search-param" name="searchParam">
+        <mat-option *ngFor="let option of searchOptions" [value]="option.value" >{{option.display}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field fxFlex>
+      <mat-label for="search-value">Search</mat-label>
+      <input matInput type="search" [(ngModel)]="searchValue" name="searchValue" id="search-value">
+      <button mat-icon-button type="submit" matSuffix><mat-icon>search</mat-icon></button>
+    </mat-form-field>
+  </form>
+</div>
+<div>
+  <table mat-table [dataSource]="customers">
+    <ng-container matColumnDef="acctNumber">
+      <th mat-header-cell *matHeaderCellDef>Account Number</th>
+      <td mat-cell *matCellDef="let cust">{{cust.accountNumber}}</td>
+    </ng-container>
+    <ng-container matColumnDef="installDate">
+      <th mat-header-cell *matHeaderCellDef>Install Date</th>
+      <td mat-cell *matCellDef="let cust">{{cust.dateInstalled | date: 'longDate'}}</td>
+    </ng-container>
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef>Phone</th>
+      <td mat-cell *matCellDef="let cust">{{cust.mainPhone}}</td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let cust">{{cust.name}}</td>
+    </ng-container>
+    <ng-container matColumnDef="system">
+      <th mat-header-cell *matHeaderCellDef>System</th>
+      <td mat-cell *matCellDef="let cust">{{cust.equipment}}</td>
+    </ng-container>
+    <ng-container matColumnDef="contactName">
+      <th mat-header-cell *matHeaderCellDef>Contact</th>
+      <td mat-cell *matCellDef="let cust">{{cust?.contacts[0]?.fullName}}</td>
+    </ng-container>
+    <ng-container matColumnDef="contactPhone">
+      <th mat-header-cell *matHeaderCellDef>Contact</th>
+      <td mat-cell *matCellDef="let cust">{{cust?.contacts[0]?.phone}}</td>
+    </ng-container>
+    <ng-container matColumnDef="serviceAddress">
+      <th mat-header-cell *matHeaderCellDef>Address</th>
+      <td mat-cell *matCellDef="let cust">
+        <div class="address">
+          <span>{{cust?.serviceAddress?.line1}}</span><br>
+          <span *ngIf="cust.serviceAddress && cust.serviceAddress.line2">{{cust.serviceAddress.line2}}<br></span>
+          <span *ngIf="cust.serviceAddress && cust.serviceAddress.line3">{{cust.serviceAddress.line3}}<br></span>
+          <span>{{cust?.serviceAddress?.city}}, {{cust?.serviceAddress?.state}} {{cust?.serviceAddress?.zip}}</span>
+        </div>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="tableCols; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: tableCols;" (click)="onRowClick(row.id)"></tr>
+  </table>
+</div>

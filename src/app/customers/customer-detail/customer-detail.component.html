@@ -1,0 +1,10 @@
+<div class="container" fxLayout="row">
+  <div *ngIf="customer">
+    <h1 class="primary-name">{{customer.name}}</h1>
+    <div class="address"><span>{{customer?.serviceAddress?.line1}}</span><br>
+      <span *ngIf="customer.serviceAddress && customer.serviceAddress.line2">{{customer.serviceAddress.line2}}<br></span>
+      <span *ngIf="customer.serviceAddress && customer.serviceAddress.line3">{{customer.serviceAddress.line3}}<br></span>
+      <span>{{customer?.serviceAddress?.city}}, {{customer?.serviceAddress?.state}} {{customer?.serviceAddress?.zip}}</span></div>
+    <div class="address">{{customer.billingAddress}}</div>
+  </div>
+</div>
